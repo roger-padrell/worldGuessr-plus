@@ -4,6 +4,7 @@ async function solve(){
   let latitude = par.get("lat");
   let longitude = par.get("long");
   let details = await getLocationDetails(latitude, longitude);
+  console.log(details)
   alert(details.country + ", " + details.region)
 }
 
