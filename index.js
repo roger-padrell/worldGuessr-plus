@@ -72,7 +72,7 @@ async function getLocationDetails(lat, lon) {
         }
 
         const continent = countryEntry.region_name || "Unknown continent";
-        const region = countryEntry.subregion_name || "Unknown region";
+        const region = countryEntry["Sub-region Name"] || "Unknown region";
 
         return { country, continent, region };
     } catch (error) {
