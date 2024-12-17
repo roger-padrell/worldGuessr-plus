@@ -9,20 +9,37 @@ async function solve(){
 }
 
 
-async function getLocationDetails(lat, lon) {
+async function getCountryName(lat, lon) {
     try {
-        // Step 1: Get the country name using Nominatim
-        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`;
-        const response = await fetch(geocodeUrl, {
-            headers: { 'User-Agent': 'LocationLookup/1.0' } // Required header for Nominatim API
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`;
+
+        const response = await fetch(url, {
+            headers: { 'User-Agent': 'CountryLookup/1.0' } // Required by Nominatim API
         });
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const geocodeData = await response.json();
-        const country = geocodeData?.address?.country;
+        const data = await response.json();
+
+        // Check if the country is present in the response
+        if (data?.address?.country) {
+            return data.address.country;
+        } else {
+            return "Country not found";
+        }
+    } catch (error) {
+        console.error("Error fetching country name:", error.message);
+        return null;
+    }
+}
+
+
+async function getLocationDetails(lat, lon) {
+    try {
+        // Step 1: Get the country name using Nominatim
+        const country = await getCountryName(lat, lon);
 
         if (!country) {
             return { country: "Unknown country", continent: "Unknown continent", region: "Unknown region" };
