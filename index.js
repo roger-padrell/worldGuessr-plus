@@ -40,6 +40,7 @@ async function getLocationDetails(lat, lon) {
     try {
         // Step 1: Get the country name using Nominatim
         const country = await getCountryName(lat, lon);
+        country.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 
         if (!country) {
             return { country: "Unknown country", continent: "Unknown continent", region: "Unknown region" };
