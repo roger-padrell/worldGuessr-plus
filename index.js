@@ -56,9 +56,12 @@ async function getLocationDetails(lat, lon) {
         const m49Data = await m49Response.json();
 
         // Step 3: Match country to M49 regions
-        const countryEntry = Object.values(m49Data.countries).find(
-            (entry) => entry["Country or Area"].toLowerCase() === country.toLowerCase()
-        );
+        let countryEntry;
+        for(let c in m49Data){
+          if(m49Data[c]["Country or Area"].toLowerCase() === country.toLowerCase()){
+            countryEntry = m49Data[c];
+          }
+        }
 
         if (!countryEntry) {
             return {
