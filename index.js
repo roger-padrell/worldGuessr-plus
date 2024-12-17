@@ -46,7 +46,7 @@ async function getLocationDetails(lat, lon) {
         }
 
         // Step 2: Get M49 classification data
-        const m49Url = "https://unstats.un.org/unsd/methodology/m49/m49.json";
+        const m49Url = "https://omnika.org/component/firedrive/?view=document&id=13&format=raw";
         const m49Response = await fetch(m49Url);
 
         if (!m49Response.ok) {
