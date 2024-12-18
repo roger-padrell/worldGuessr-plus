@@ -6,6 +6,25 @@ async function solve(){
   let details = await getLocationDetails(latitude, longitude);
   console.log(details)
   alert(details.country + ", " + details.region)
+  let image = getMapImageUrl(latitude, longitude)
+  let el = document.createElement("img")
+  el.src = image;
+  document.body.append(el)
+}
+
+function getMapImageUrl(latitude, longitude, zoom = 10, width = 600, height = 400) {
+    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        throw new Error('Invalid latitude or longitude');
+    }
+
+    // OpenStreetMap static tile server
+    const tileBaseUrl = 'https://www.openstreetmap.org/export/embed.html';
+
+    // Generate the bbox based on latitude, longitude, and zoom
+    const bbox = `${longitude - 0.01},${latitude - 0.01},${longitude + 0.01},${latitude + 0.01}`;
+
+    // Construct and return the full URL
+    return `${tileBaseUrl}?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
 }
 
 
